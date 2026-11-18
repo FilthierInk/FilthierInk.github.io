@@ -32,8 +32,8 @@
         <path d="M0 125 C40 110 70 100 100 100 C200 100 200 160 300 160 C400 160 400 100 500 100 C600 100 600 160 700 160 C800 160 800 100 900 100 C930 100 960 110 1000 125"/>
       </svg>
       <ol>
-        {% for e in recent %}
-        <li style="--x: {{ 10 + 20 * loop.index0 }}%; --y: {{ 100 if loop.index0 is even else 160 }}px">
+        {% for e in recent | reverse %}
+        <li style="--i: {{loop.index0}}; --x: {{ 10 + 20 * loop.index0 }}%; --y: {{ 100 if loop.index0 is even else 160 }}px">
           <a href="{{ url_for(e, lang) }}">
             <span class="dot t-{{ e.tipo }}"></span>
             <span class="date">{{ e.inicio | fecha(lang) }}</span>

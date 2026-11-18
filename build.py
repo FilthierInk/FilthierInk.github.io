@@ -118,7 +118,7 @@ def read_entry(page):
         "slug": slugify(nombre),
         "descripcion": descripcion,
         "descripcion_en": text_of(p, "Descripcion EN") or descripcion,
-        "tipo": select_name(p, "Tipo"),
+        "tipo": slugify(select_name(p, "Tipo") or ""),
         "categoria": select_name(p, "Categoria"),
         "organizacion": select_name(p, "Organizacion"),
         "herramientas": [t["name"] for t in p["Herramientas"]["multi_select"]],
@@ -337,4 +337,6 @@ if __name__ == "__main__":
     for lang in LANGS:
         build_home(lang, entries)
         build_details(lang, entries)
+    for e in entries:
+        print(e["tipo"], "|", e["nombre"], "|", e["inicio"], "|", list(e.get("writeups", {})))
     print("Listo: dist/ (es + en)")
