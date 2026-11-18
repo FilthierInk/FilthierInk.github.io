@@ -36,10 +36,9 @@
       {% if e.link %}<a class="pill" href="{{ e.link }}" target="_blank" rel="noopener">{{ t.ver_enlace }}</a>{% endif %}
     </aside>
   </div>
-
   <nav class="prev-next" aria-label="{{ etiqueta }}">
-    {% if prev %}<a class="card" href="{{ url_for(prev, lang) }}"><small>{{ t.mas_reciente }}</small><strong>{{ prev.nombre }}</strong></a>{% endif %}
-    {% if next %}<a class="card next" href="{{ url_for(next, lang) }}"><small>{{ t.mas_antiguo }}</small><strong>{{ next.nombre }}</strong></a>{% endif %}
+    {% if next %}<a class="card older" href="{{ url_for(next, lang) }}"><small>{{ t.mas_antiguo }}</small><strong>{{ next.nombre }}</strong></a>{% endif %}
+    {% if prev %}<a class="card newer" href="{{ url_for(prev, lang) }}"><small>{{ t.mas_reciente }}</small><strong>{{ prev.nombre }}</strong></a>{% endif %}
   </nav>
 </article>
 {% endblock %}
