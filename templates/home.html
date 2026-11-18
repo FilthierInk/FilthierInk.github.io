@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% from "macros.html" import row with context %}
+{% block content %}
+<div class="hero-bg">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <section id="inicio" class="wrap hero">
+    <div class="hero-text">
+      <p class="eyebrow">{{ profile.etiqueta }}</p>
+      <h1>{{ profile.titular | safe }}</h1>
+      <p class="lead">{{ profile.bio }}</p>
+    </div>
+    <aside class="card hero-card">
+      <img src="{{ profile.foto }}" alt="{{ t.foto_de }} {{ profile.nombre }}">
+      <dl class="info">
+        <div><dt>{{ t.nombre }}</dt><dd>{{ profile.nombre }}</dd></div>
+        <div><dt>{{ t.ubicacion }}</dt><dd>{{ profile.ubicacion }}</dd></div>
+        <div><dt>{{ t.proyectos }}</dt><dd>{{ total_proyectos }} {{ t.publicados }}</dd></div>
+        <div><dt>{{ t.actualizado }}</dt><dd>{{ actualizado }}</dd></div>
+      </dl>
+    </aside>
+  </section>
+</div>
+
+<section id="trayectoria" class="panel p-trayectoria">
+  <p class="eyebrow">{{ t.recientes }}</p>
+  <h2>{{ t.trayectoria }}</h2>
+  <div class="timeline-scroll">
+    <div class="timeline">
+      <svg viewBox="0 0 1000 260" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 125 C40 110 70 100 100 100 C200 100 200 160 300 160 C400 160 400 100 500 100 C600 100 600 160 700 160 C800 160 800 100 900 100 C930 100 960 110 1000 125"/>
+      </svg>
+      <ol>
+        {% for e in recent %}
+        <li style="--x: {{ 10 + 20 * loop.index0 }}%; --y: {{ 100 if loop.index0 is even else 160 }}px">
+          <a href="{{ url_for(e, lang) }}">
+            <span class="dot t-{{ e.tipo }}"></span>
+            <span class="date">{{ e.inicio | fecha(lang) }}</span>
+            <span class="name">{{ e.nombre }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="sobre-mi" class="panel p-sobre">
+  <h2>{{ t.sobre_mi }}</h2>
+  <p class="lead">{{ profile.sobre_mi }}</p>
+  <div class="section-head">
+    <h3>{{ t.herramientas }}</h3>
+    <span class="hint">{{ t.herramientas_hint }}</span>
+  </div>
+  <div class="skills">
+    {% for categoria, items in skills.items() %}
+    <div class="card skill-card">
+      <h4>{{ categoria }}</h4>
+      <div class="chips">
+        {% for tool in items %}
+        <button class="chip" type="button" data-tool="{{ tool.nombre }}" aria-pressed="false">{{ tool.nombre }} <span>{{ tool.n }}</span></button>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <p>{{ t.sin_herramientas }}</p>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="experiencia" class="panel p-experiencia">
+  <h2>{{ t.experiencia }}</h2>
+  <div id="lista-experiencia">
+    {% for e in experiencia %}{{ row(e, loop.index > 3) }}{% endfor %}
+  </div>
+  {% if experiencia | length > 3 %}
+  <button class="load-more" type="button" data-more="lista-experiencia" data-step="3">{{ t.cargar_mas }}</button>
+  {% endif %}
+</section>
+
+<section id="proyectos" class="panel p-proyectos">
+  <div class="section-top">
+    <h2>{{ t.proyectos }}</h2>
+    <div class="filters" role="group" aria-label="{{ t.filtrar }}">
+      <button class="chip" type="button" data-cat="" aria-pressed="true">{{ t.todos }}</button>
+      {% for c in categorias %}
+      <button class="chip" type="button" data-cat="{{ c }}" aria-pressed="false">{{ c }}</button>
+      {% endfor %}
+    </div>
+  </div>
+  <p class="filter-note" id="filtro-herramienta" data-msg="{{ t.filtro }}" hidden></p>
+  <div id="lista-proyectos">
+    {% for e in proyectos %}{{ row(e, loop.index > 3) }}{% endfor %}
+  </div>
+  {% if proyectos | length > 3 %}
+  <button class="load-more" type="button" data-more="lista-proyectos" data-step="3">{{ t.cargar_mas }}</button>
+  {% endif %}
+</section>
+
+<section id="educacion" class="panel p-educacion">
+  <h2>{{ t.educacion }}</h2>
+  <div id="lista-educacion">
+    {% for e in educacion %}{{ row(e, loop.index > 3) }}{% endfor %}
+  </div>
+  {% if educacion | length > 3 %}
+  <button class="load-more" type="button" data-more="lista-educacion" data-step="3">{{ t.cargar_mas }}</button>
+  {% endif %}
+</section>
+
+<section id="certificaciones" class="panel p-certificaciones">
+  <h2>{{ t.certificaciones }}</h2>
+  <div id="lista-certificaciones" class="cert-list">
+    {% for c in certificaciones %}
+    <div class="cert reveal"{% if loop.index > 5 %} hidden{% endif %}>
+      <div>
+        <strong>{{ c.nombre }}</strong>
+        {% if c.organizacion %}<span>{{ c.organizacion }}</span>{% endif %}
+      </div>
+      <div class="cert-end">
+        <span>{{ c.inicio | fecha(lang) }}</span>
+        {% if c.link %}<a class="pill" href="{{ c.link }}" target="_blank" rel="noopener">{{ t.ver_certificado }}</a>{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% if certificaciones | length > 5 %}
+  <button class="load-more" type="button" data-more="lista-certificaciones" data-step="5">{{ t.cargar_mas }}</button>
+  {% endif %}
+</section>
+
+<section id="contacto" class="contact">
+  <div>
+    <h2>{{ t.hablamos }}</h2>
+    <p>{{ t.abierto }}</p>
+  </div>
+  <div class="contact-links">
+    <a class="pill light" href="{{ profile.linkedin }}" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a class="pill outline" href="mailto:{{ profile.email }}">{{ profile.email }}</a>
+  </div>
+</section>
+{% endblock %}

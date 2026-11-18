@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}{{ e.nombre }} · Jorge Abel{% endblock %}
+{% block content %}
+<article class="wrap detail t-page-{{ e.tipo }}">
+  <a class="back" href="{{ root }}/#{{ seccion }}">{{ t.volver }}</a>
+
+  <header class="detail-head">
+    <p class="eyebrow">{{ etiqueta }} · {{ e | rango(lang) }}</p>
+    <h1>{{ e.nombre }}</h1>
+    {% if e.organizacion %}<p class="lead">{{ e.organizacion }}</p>{% endif %}
+  </header>
+
+  {% if e.portada %}<img class="cover" src="{{ e.portada }}" alt="">{% endif %}
+
+  <div class="detail-grid">
+    <div class="prose">
+      {% if e.descripcion %}<p class="intro">{{ e.descripcion }}</p>{% endif %}
+      {{ contenido | safe }}
+      {% if e.galeria %}
+      <div class="gallery">
+        {% for img in e.galeria %}<img src="{{ img }}" alt="" loading="lazy">{% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <aside class="card facts">
+      <h2>{{ t.detalles }}</h2>
+      <dl>
+        {% if e.organizacion %}<div><dt>{{ t.organizacion }}</dt><dd>{{ e.organizacion }}</dd></div>{% endif %}
+        <div><dt>{{ t.fechas }}</dt><dd>{{ e | rango(lang) }}</dd></div>
+        {% if e.categoria %}<div><dt>{{ t.categoria }}</dt><dd>{{ e.categoria }}</dd></div>{% endif %}
+      </dl>
+      {% if e.herramientas %}
+      <div class="tags">{% for t2 in e.herramientas %}<span>{{ t2 }}</span>{% endfor %}</div>
+      {% endif %}
+      {% if e.link %}<a class="pill" href="{{ e.link }}" target="_blank" rel="noopener">{{ t.ver_enlace }}</a>{% endif %}
+    </aside>
+  </div>
+
+  <nav class="prev-next" aria-label="{{ etiqueta }}">
+    {% if prev %}<a class="card" href="{{ url_for(prev, lang) }}"><small>{{ t.mas_reciente }}</small><strong>{{ prev.nombre }}</strong></a>{% endif %}
+    {% if next %}<a class="card next" href="{{ url_for(next, lang) }}"><small>{{ t.mas_antiguo }}</small><strong>{{ next.nombre }}</strong></a>{% endif %}
+  </nav>
+</article>
+{% endblock %}

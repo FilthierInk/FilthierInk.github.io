@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Jorge Abel{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="{{ root }}/"><span>JA</span>Jorge Abel</a>
+      <nav class="links">
+        <a href="{{ root }}/#trayectoria">{{ t.nav_trayectoria }}</a>
+        <a href="{{ root }}/#experiencia">{{ t.nav_experiencia }}</a>
+        <a href="{{ root }}/#proyectos">{{ t.nav_proyectos }}</a>
+        <a class="btn" href="{{ root }}/#contacto">{{ t.nav_contacto }}</a>
+        <span class="lang">
+          {% if lang == "es" %}
+          <strong>ES</strong><a href="{{ alt_url }}" hreflang="en">EN</a>
+          {% else %}
+          <a href="{{ alt_url }}" hreflang="es">ES</a><strong>EN</strong>
+          {% endif %}
+        </span>
+      </nav>
+    </div>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer class="wrap footer">
+    <span>© {{ year }} Jorge Abel</span>
+    <span>{{ t.footer }}</span>
+  </footer>
+  <script src="/assets/js/site.js" defer></script>
+</body>
+</html>

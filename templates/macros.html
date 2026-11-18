@@ -1,0 +1,19 @@
+{% macro row(e, oculto=false) %}
+<article class="row" data-cat="{{ e.categoria or '' }}" data-tools="{{ e.herramientas | join('|') }}"{% if oculto %} hidden{% endif %}>
+  <div class="row-side">
+    <div class="row-meta">{{ e | rango(lang) }}{% if e.tipo == "proyecto" and e.categoria %} · {{ e.categoria }}{% endif %}</div>
+    <h3>{{ e.nombre }}</h3>
+    {% if e.organizacion %}<div class="row-org">{{ e.organizacion }}</div>{% endif %}
+    <a class="more-link" href="{{ url_for(e, lang) }}">{{ t.ver_detalle }}</a>
+  </div>
+  <a class="card row-card reveal" href="{{ url_for(e, lang) }}">
+    {% if e.portada %}<img src="{{ e.portada }}" alt="">{% endif %}
+    <div class="row-body">
+      {% if e.descripcion %}<p>{{ e.descripcion }}</p>{% endif %}
+      {% if e.herramientas %}
+      <div class="tags">{% for t2 in e.herramientas %}<span>{{ t2 }}</span>{% endfor %}</div>
+      {% endif %}
+    </div>
+  </a>
+</article>
+{% endmacro %}

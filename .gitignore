@@ -1,0 +1,4 @@
+.venv-portofolio/
+dist/
+__pycache__/
+.env
